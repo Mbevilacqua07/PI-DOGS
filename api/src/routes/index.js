@@ -24,7 +24,7 @@ const getApiInfo = async () => {
 };
 
 const getDbInfo = async () => {
-  return await Dog.findAll({
+  const perros = await Dog.findAll({
     include: {
       model: Temperament,
       attributes: ["name"],
@@ -33,6 +33,7 @@ const getDbInfo = async () => {
       },
     },
   });
+  return perros;
 };
 
 const getAllDogs = async () => {
@@ -77,8 +78,9 @@ router.get("/dogs/:id", async (req, res) => {
 });
 
 router.post("/dogs", async (req, res) => {
+  console.log(req.body);
   try {
-    let { name, temperament, height, weight, life_span, img, createdDb } =
+    let { name, temperaments, height, weight, life_span, img, createdDb } =
       req.body;
 
     let dogCreated = await Dog.create({
@@ -91,7 +93,7 @@ router.post("/dogs", async (req, res) => {
     });
 
     let temperamentDb = await Temperament.findAll({
-      where: { name: temperament },
+      where: { name: temperaments },
     });
     dogCreated.addTemperament(temperamentDb);
     res.send("Perro creado con exito");

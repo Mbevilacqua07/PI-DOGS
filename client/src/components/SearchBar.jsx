@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getDogsName } from "../redux/actions";
-
+import s from "../components/SearchBar.module.css";
 export default function SearchBar() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
@@ -19,8 +19,9 @@ export default function SearchBar() {
   }
 
   return (
-    <div>
+    <div className={s.div}>
       <input
+        className={s.li}
         type="text"
         placeholder="Buscar"
         onChange={(e) => handleInputChange(e)}

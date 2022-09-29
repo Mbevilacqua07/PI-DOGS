@@ -41,8 +41,8 @@ function rootReducer(state = initialState, action) {
       const dogs2 = state.allDogs;
       const createdFilter =
         action.payload == "created"
-          ? dogs2.filter((el) => el.createdDb)
-          : dogs2.filter((el) => !el.createdDb);
+          ? dogs2.filter((el) => el.createdInDb)
+          : dogs2.filter((el) => !el.createdInDb);
       return {
         ...state,
         dogs: action.payload === "all" ? dogs2 : createdFilter,

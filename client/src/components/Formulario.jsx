@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Formulario() {
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
-  const history = useHistory;
+  const history = useHistory();
   const [input, setInput] = useState({
     name: "",
     height: "",
     weight: "",
     life_span: "",
-    temperament: [],
+    temperaments: [],
     img: "",
   });
   const [error, setError] = useState({});
@@ -30,12 +30,14 @@ export default function Formulario() {
     } else if (!input.weight) {
       errors.weight = "Se requiere un Peso";
     }
+    return errors;
   }
   function handleInputChange(e) {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
+
     setError(
       validate({
         ...input,
@@ -48,18 +50,19 @@ export default function Formulario() {
   function handleSelect(e) {
     setInput({
       ...input,
-      temperaments: [...input.temperament, e.target.value],
+      temperaments: [...input.temperaments, e.target.value],
     });
   }
   function handleDelete(e) {
     setInput({
       ...input,
-      temperaments: input.temperament.filter((temp) => temp !== e),
+      temperaments: input.temperaments.filter((temp) => temp !== e),
     });
   }
 
   function handleSubmit(e) {
     e.preventDefault(e);
+    console.log(input);
     dispatch(postDogs(input));
     alert("Personaje Creado");
     setInput({
@@ -67,7 +70,7 @@ export default function Formulario() {
       height: "",
       weight: "",
       life_span: "",
-      temperament: [],
+      temperaments: [],
       img: "",
     });
     history.push("/Home");
@@ -78,7 +81,7 @@ export default function Formulario() {
         <button>Volver</button>
       </Link>
       <h1>Crea tu perro!</h1>
-      <form>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label>Nombre: </label>
           <input
@@ -131,20 +134,19 @@ export default function Formulario() {
         </div>
         <div>
           <select onChange={(e) => handleSelect(e)}>
-            {temperaments.map((el) => {
-              <option value={el.name}>{el.name}</option>;
-            })}
+            <option value="temp"> Temperamentos </option>
+            {temperaments.map((el) => (
+              <option value={el.name}>{el.name}</option>
+            ))}
           </select>
         </div>
         <div>
-          <button type="submit" onChange={(e) => handleSubmit(e)}>
-            Crear Perro
-          </button>
+          <button type="submit">Crear Perro</button>
         </div>
       </form>
-      {temperaments.map((el) => (
+      {input.temperaments.map((el) => (
         <div>
-          <p></p>
+          <p>{el}</p>
           <button onClick={() => handleDelete(el)}>x</button>
         </div>
       ))}

@@ -8,10 +8,11 @@ import {
   getAllTemperaments,
   getDogs,
 } from "../redux/actions";
-import Card from "../Card/Card";
+import Card from "../components/Cards/Card";
 import { Link } from "react-router-dom";
 import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
+import s from "../components/Home.module.css";
 
 export default function Home() {
   function handleFilterByOrder(e) {
@@ -53,7 +54,7 @@ export default function Home() {
     dispatch(getAllTemperaments());
   }, []);
   return (
-    <div>
+    <div className={s.div}>
       <Link to="/dogs">Crear Perro </Link>
       <button
         onClick={(e) => {
@@ -62,19 +63,22 @@ export default function Home() {
       >
         Volver a cargar todos los perros
       </button>
-      <div>
+      <div className={s.divSelect}>
         <SearchBar />
-        <select onChange={(e) => handleFilterByTemperaments(e)}>
+        <select
+          onChange={(e) => handleFilterByTemperaments(e)}
+          className={s.select}
+        >
           <option value="temp"> Temperamentos </option>
           {allTemperaments.map((el) => (
             <option value={el.name}>{el.name}</option>
           ))}
         </select>
-        <select onChange={(e) => handleFilterByOrder(e)}>
+        <select onChange={(e) => handleFilterByOrder(e)} className={s.select}>
           <option value="asc"> Ascendente </option>
           <option value="desc">Descendente</option>
         </select>
-        <select onChange={(e) => handleFilterCreated(e)}>
+        <select onChange={(e) => handleFilterCreated(e)} className={s.select}>
           <option value="all"> Todos </option>
           <option value="created">Creados</option>
           <option value="api">Existentes</option>
@@ -84,19 +88,20 @@ export default function Home() {
           allDogs={allDogs.length}
           paginado={paginado}
         />
-
-        {currentDogs &&
-          currentDogs.map((el) => {
-            return (
-              <Card
-                id={el.id}
-                name={el.name}
-                image={el.image}
-                temperaments={el.temperament}
-                weight={el.weight}
-              />
-            );
-          })}
+        <div className={s.dogsContainer}>
+          {currentDogs &&
+            currentDogs.map((el) => {
+              return (
+                <Card
+                  id={el.id}
+                  name={el.name}
+                  image={el.image}
+                  temperaments={el.temperament}
+                  weight={el.weight}
+                />
+              );
+            })}
+        </div>
       </div>
     </div>
   );

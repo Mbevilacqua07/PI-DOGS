@@ -1,0 +1,11 @@
+.div {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+.li {
+    margin: 1em;
+    padding: 1px;
+}
