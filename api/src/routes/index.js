@@ -33,7 +33,16 @@ const getDbInfo = async () => {
       },
     },
   });
-  return perros;
+  return perros.map((el) => {
+    return {
+      name: el.name,
+      id: el.id,
+      weight: el.weight,
+      image: el.image,
+      createdInDb: true,
+      temperament: el.temperaments.map((e) => e.name).join(", "),
+    };
+  });
 };
 
 const getAllDogs = async () => {
